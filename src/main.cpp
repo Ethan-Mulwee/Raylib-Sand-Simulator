@@ -1,5 +1,8 @@
 #include <raylib.h>
 #include "grid.hpp"
+#include <string>
+#include <iostream>
+#include <bits/stdc++.h>
 
 int main()
 {
@@ -8,17 +11,21 @@ int main()
     const int screenHeight = 600;
     Grid grid = Grid(60,80,10);
     grid.Set(4,4);
+    
+    std::string test = "Test";
+    test.c_str();
 
     InitWindow(screenWidth, screenHeight, "Sand Simulation");
-    SetTargetFPS(2);
+    SetTargetFPS(60);
 
     while (!WindowShouldClose())
     {
         BeginDrawing();
-        ClearBackground(BLACK);
+        ClearBackground(DARKGRAY);
         grid.Step();
-        //grid.Set(GetMouseX()/10,GetMouseY()/10);
         grid.Draw();
+        DrawRectangle(GetMouseX(), GetMouseY(), 10, 10, WHITE);
+        DrawText(std::to_string(GetMouseX()).c_str(), 10, 10, 10, WHITE);
         EndDrawing();
     }
 

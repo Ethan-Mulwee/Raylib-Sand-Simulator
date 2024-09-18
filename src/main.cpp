@@ -16,8 +16,8 @@ int main()
     {
         BeginDrawing();
         ClearBackground(BLACK);
+        grid.Step();
         grid.Draw();
-        DrawText("test", 100, 100, 20, WHITE);
         EndDrawing();
     }
 

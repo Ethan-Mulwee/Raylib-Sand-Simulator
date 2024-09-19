@@ -3,6 +3,7 @@
 #include <string>
 #include <iostream>
 #include <bits/stdc++.h>
+#include "main.h"
 
 int main()
 {
@@ -23,12 +24,17 @@ int main()
         BeginDrawing();
         ClearBackground(DARKGRAY);
         grid.Step();
+        grid.Set(GetMouseY()/10, GetMouseX()/10);
         grid.Draw();
-        DrawRectangle(GetMouseX(), GetMouseY(), 10, 10, WHITE);
-        DrawText(std::to_string(GetMouseX()).c_str(), 10, 10, 10, WHITE);
+        DebugText();
         EndDrawing();
     }
 
     CloseWindow();
     return 0;
+}
+void DebugText()
+{
+    DrawText(std::to_string(GetMouseX() / 10).c_str(), 10, 10, 10, WHITE);
+    DrawText(std::to_string(GetMouseY() / 10).c_str(), 10, 20, 10, WHITE);
 }

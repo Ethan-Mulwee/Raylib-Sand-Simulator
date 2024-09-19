@@ -11,7 +11,10 @@ void Grid::Draw(){
 }
 
 void Grid::Set(int row, int column) {
-    cells[row][column] = 1;
+    //if within bounds
+    if (row < rows && row > -1 && column < columns && column > -1) {
+        cells[row][column] = 1;
+    }
 }
 
 void Grid::Step() {

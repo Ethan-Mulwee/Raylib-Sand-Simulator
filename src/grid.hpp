@@ -1,18 +1,27 @@
 #pragma once
 #include <vector>
+#include "raylib.h"
 
 class Grid {
     public:
         Grid(int rows, int columns, int cellSize)
-        : rows(rows), columns(columns), cellSize(cellSize), cells(rows, std::vector<int>(columns, 0)){};
+        : rows(rows), columns(columns), cellSize(cellSize), cells(rows, std::vector<cell>(columns, cell(0))){};
         void Draw();
-        void Set(int row, int column);
+        void Set(int row, int column, Color color);
         void Step();
-        void Check(int row, int column, std::vector<std::vector<int>> &tempcells, int &retFlag);
 
     private:
         int rows;
         int columns;
         int cellSize;
-        std::vector<std::vector<int>> cells;
+        struct  cell
+        {
+            int i = 0;
+            Color color;
+            cell(int input) {
+                i = input;
+            }
+        };
+        
+        std::vector<std::vector<cell>> cells;
 };

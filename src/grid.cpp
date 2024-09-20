@@ -19,7 +19,7 @@ void Grid::Set(int row, int column, Color color) {
 }
 
 void Grid::Step() {
-    std::vector<std::vector<cell>> tempcells = std::vector<std::vector<cell>>(rows, std::vector<cell>(columns, cell(0)));
+    std::vector<std::vector<cell>> tempcells = std::vector<std::vector<cell>>(rows, std::vector<cell>(columns, cell(0, SAND)));
     for (int row = 0; row < rows; row++) {
         for (int column = 0; column < columns; column++) {
             //Is cell not sand?

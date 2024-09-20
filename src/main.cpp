@@ -8,10 +8,10 @@
 int main()
 {
 
-    const int screenWidth = 2560;
-    const int screenHeight = 1440;
+    const int screenWidth = 1280;
+    const int screenHeight = 720;
     const int gridScale = 10;
-    Grid grid = Grid(140,256,gridScale);
+    Grid grid = Grid(72,128,gridScale);
     
     std::string test = "Test";
     test.c_str();
@@ -23,7 +23,7 @@ int main()
     {
         BeginDrawing();
         ClearBackground(DARKGRAY);
-        grid.Set(GetMouseY()/gridScale, GetMouseX()/gridScale, Color{(unsigned char)((sin(GetTime()*0.4)*50)+155),160,20,255});
+        grid.Set(GetMouseY()/gridScale, GetMouseX()/gridScale, Color{(unsigned char)((sin(GetTime()*0.2)*50)+155),(unsigned char)((sin(GetTime()+540*0.05)*50)+155),(unsigned char)((sin(GetTime()+12305*0.1)*50)+155),255});
         grid.Step();
         grid.Draw();
         DebugText();

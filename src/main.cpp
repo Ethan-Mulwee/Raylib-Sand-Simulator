@@ -35,7 +35,7 @@ int main()
             color = Color{(unsigned char)((sin(GetTime()*0.2)*50)+155),(unsigned char)((sin(GetTime()+540*0.05)*50)+155),(unsigned char)((sin(GetTime()+12305*0.1)*50)+155),255};
             break;
             case Grid::State::WOOD:
-            color = Color{100,100,100, 255};
+            color = Color{70,40,10, 255};
             break;
         }
         if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {

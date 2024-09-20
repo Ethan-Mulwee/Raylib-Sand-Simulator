@@ -16,7 +16,7 @@ class Grid {
         int cellSize;
         struct  cell
         {
-            Color color;
+            Color color = Color{0,0,0,255};
             State state;
             cell(State inputState) {
                 state = inputState;

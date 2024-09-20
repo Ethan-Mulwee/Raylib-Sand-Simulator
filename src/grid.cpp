@@ -5,7 +5,7 @@ void Grid::Draw(){
     for (int row = 0; row < rows; row++) {
         for (int column = 0; column < columns; column++) {
             Color color;
-            if (cells[row][column].state == EMPTY) {
+            if (cells[row][column].state != EMPTY) {
                 color = cells[row][column].color;
             } else {
                 color = Color{55,55,55,255};

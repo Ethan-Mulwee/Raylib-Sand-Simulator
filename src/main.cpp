@@ -35,11 +35,17 @@ int main()
             color = Color{(unsigned char)((sin(GetTime()*0.2)*50)+155),(unsigned char)((sin(GetTime()+540*0.05)*50)+155),(unsigned char)((sin(GetTime()+12305*0.1)*50)+155),255};
             break;
             case Grid::State::WOOD:
-            color = Color{255,255,255, 255};
+            color = Color{100,100,100, 255};
             break;
         }
         if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
-            grid.Set(GetMouseY()/gridScale, GetMouseX()/gridScale, color, state);
+            int x = GetMouseX()/gridScale;
+            int y = GetMouseY()/gridScale; 
+            grid.Set(y, x, color, state);
+            grid.Set(y+1, x, color, state);
+            grid.Set(y-1, x, color, state);
+            grid.Set(y, x+1, color, state);
+            grid.Set(y, x-1, color, state);
         }
         grid.Step();
         grid.Draw();

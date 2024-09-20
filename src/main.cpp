@@ -5,6 +5,7 @@
 #include <bits/stdc++.h>
 #include "main.h"
 
+
 int main()
 {
 
@@ -12,9 +13,8 @@ int main()
     const int screenHeight = 720;
     const int gridScale = 10;
     Grid grid = Grid(72,128,gridScale);
+    Grid::State state = Grid::State::SAND;
     
-    std::string test = "Test";
-    test.c_str();
 
     InitWindow(screenWidth, screenHeight, "Sand Simulation");
     SetTargetFPS(200);
@@ -23,7 +23,15 @@ int main()
     {
         BeginDrawing();
         ClearBackground(DARKGRAY);
-        grid.Set(GetMouseY()/gridScale, GetMouseX()/gridScale, Color{(unsigned char)((sin(GetTime()*0.2)*50)+155),(unsigned char)((sin(GetTime()+540*0.05)*50)+155),(unsigned char)((sin(GetTime()+12305*0.1)*50)+155),255});
+        if (IsKeyPressed(KEY_ONE)) {
+            state = Grid::State::SAND;
+        }
+        if (IsKeyPressed(KEY_TWO)) {
+            state = Grid::State::WOOD;
+        }
+        if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+            grid.Set(GetMouseY()/gridScale, GetMouseX()/gridScale, Color{(unsigned char)((sin(GetTime()*0.2)*50)+155),(unsigned char)((sin(GetTime()+540*0.05)*50)+155),(unsigned char)((sin(GetTime()+12305*0.1)*50)+155),255}, state);
+        }
         grid.Step();
         grid.Draw();
         DebugText();

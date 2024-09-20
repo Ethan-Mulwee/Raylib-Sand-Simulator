@@ -8,9 +8,11 @@ class Grid {
         void Draw();
         void Set(int row, int column);
         void Step();
+        void Check(int row, int column, std::vector<std::vector<int>> &tempcells, int &retFlag);
+
     private:
-    int rows;
-    int columns;
-    int cellSize;
-    std::vector<std::vector<int>> cells;
+        int rows;
+        int columns;
+        int cellSize;
+        std::vector<std::vector<int>> cells;
 };

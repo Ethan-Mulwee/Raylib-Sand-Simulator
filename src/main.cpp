@@ -11,7 +11,6 @@ int main()
     const int screenWidth = 800;
     const int screenHeight = 600;
     Grid grid = Grid(60,80,10);
-    grid.Set(4,4);
     
     std::string test = "Test";
     test.c_str();

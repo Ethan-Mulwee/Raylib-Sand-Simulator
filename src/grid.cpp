@@ -33,6 +33,28 @@ void Grid::Step() {
                 tempcells[row+1][column] = 1;
                 continue;
             }
+            if (GetRandomValue(0,1)) {
+                //Check right then left
+                if (column != columns-1 && cells[row+1][column+1] == 0) {
+                    tempcells[row+1][column+1] = 1;
+                    continue;
+                }
+                if (column != 0 && cells[row+1][column-1] == 0) {
+                    tempcells[row+1][column-1] = 1;
+                    continue;
+                }
+            } 
+            else {
+                //Check left then right
+                if (column != 0 && cells[row+1][column-1] == 0) {
+                    tempcells[row+1][column-1] = 1;
+                    continue;
+                }
+                if (column != columns-1 && cells[row+1][column+1] == 0) {
+                    tempcells[row+1][column+1] = 1;
+                    continue;
+                }
+            }
             //If no to all then the cell stays the same
             tempcells[row][column] = 1;
 

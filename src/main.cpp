@@ -23,8 +23,8 @@ int main()
     {
         BeginDrawing();
         ClearBackground(DARKGRAY);
-        grid.Step();
         grid.Set(GetMouseY()/10, GetMouseX()/10);
+        grid.Step();
         grid.Draw();
         DebugText();
         EndDrawing();

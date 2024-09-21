@@ -27,44 +27,34 @@ void Grid::Set(int row, int column, Color color, Grid::State stateInput) {
 void Grid::Step() {
     tempcells = std::vector<std::vector<cell>>(rows, std::vector<cell>(columns, cell(EMPTY)));
     for (int row = 0; row < rows; row++) {
-        //TODO: Alternate loop direction
         int column; 
         if (row % 2 == 0) column = 0;
         else column = columns-1;
         while (true) {
-            //Is cell empty?
-            if (cells[row][column].state == EMPTY) goto next;
-            //Is the cell wood?
-            if (cells[row][column].state == WOOD) {
-                SetCell(row, 0, column, 0);
-                goto next;
-            }
-            //Is the cell below empty?
-            if (CheckEmpty(row, 1, column, 0))
-            {
-                SetCell(row, 1, column, 0);
-                goto next;
-            }
-            //Is the cell water?
-            if (cells[row][column].state == WATER) {
-                int a, b;
-                if (GetRandomValue(0,1)) { a = 1; b = -1;} else { a = -1; b = 1;} 
-                if (CheckEmpty(row, 0, column, a)) {SetCell(row, 0, column, a); goto next;}
-                if (CheckEmpty(row, 0, column, b)) {SetCell(row, 0, column, b); goto next;}
-                SetCell(row, 0, column, 0); goto next;
-            }
-            
             int a, b;
-            if (GetRandomValue(0,1)) { a = 1; b = -1;}
-            else { a = -1; b = 1;} 
-            if (CheckEmpty(row, 1, column, a)) {
-                if (SetCell(row, 1, column, a)) goto next;
+            switch (cells[row][column].state) {
+                case EMPTY:
+                    goto next;
+
+                case WOOD:
+                    SetCell(row, 0, column, 0);
+                    goto next;
+
+                case WATER:
+                    if (CheckEmpty(row, 1, column, 0)) {SetCell(row, 1, column, 0); goto next;}
+                    if (GetRandomValue(0,1)) { a = 1; b = -1;} else { a = -1; b = 1;} 
+                    if (CheckEmpty(row, 0, column, a)) {SetCell(row, 0, column, a); goto next;}
+                    if (CheckEmpty(row, 0, column, b)) {SetCell(row, 0, column, b); goto next;}
+                    SetCell(row, 0, column, 0); goto next;
+
+                case SAND:
+                    if (CheckEmpty(row, 1, column, 0)) {SetCell(row, 1, column, 0); goto next;}
+                    if (GetRandomValue(0,1)) { a = 1; b = -1;}
+                    else { a = -1; b = 1;} 
+                    if (CheckEmpty(row, 1, column, a)) {SetCell(row, 1, column, a); goto next;}
+                    if (CheckEmpty(row, 1, column, b)) {if (SetCell(row, 1, column, b)) goto next;}
+                    SetCell(row, 0, column, 0); goto next;
             }
-            if (CheckEmpty(row, 1, column, b)) {
-                if (SetCell(row, 1, column, b)) goto next;
-            }
-            //If no to all then the cell stays the same
-            SetCell(row, 0, column, 0);
             next:
             if (row % 2 == 0) {
                 column++;

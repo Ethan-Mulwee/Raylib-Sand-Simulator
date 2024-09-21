@@ -8,7 +8,6 @@
 
 int main()
 {
-
     const int screenWidth = 1280;
     const int screenHeight = 720;
     const int gridScale = 10;
@@ -45,10 +44,10 @@ int main()
             int x = GetMouseX()/gridScale;
             int y = GetMouseY()/gridScale; 
             grid.Set(y, x, color, state);
-            //grid.Set(y+1, x, color, state);
-            //grid.Set(y-1, x, color, state);
-            //grid.Set(y, x+1, color, state);
-            //grid.Set(y, x-1, color, state);
+            grid.Set(y+1, x, color, state);
+            grid.Set(y-1, x, color, state);
+            grid.Set(y, x+1, color, state);
+            grid.Set(y, x-1, color, state);
         }
         grid.Step();
         grid.Draw();
@@ -61,6 +60,6 @@ int main()
 }
 void DebugText()
 {
-    DrawText(std::to_string(GetMouseX() / 10).c_str(), 10, 10, 10, WHITE);
-    DrawText(std::to_string(GetMouseY() / 10).c_str(), 10, 20, 10, WHITE);
+    DrawText(("Mouse X: " + std::to_string(GetMouseX() / 10)).c_str(), 10, 10, 10, WHITE);
+    DrawText(("Mouse Y: " + std::to_string(GetMouseY() / 10)).c_str(), 10, 20, 10, WHITE);
 }

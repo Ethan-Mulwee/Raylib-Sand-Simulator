@@ -4,9 +4,11 @@
 #include "string"
 
 void Grid::Draw(){
+    int SandCount = 0;
     int WaterCount = 0;
     for (int row = 0; row < rows; row++) {
         for (int column = 0; column < columns; column++) {
+            if (cells[row][column].state == SAND) SandCount++;
             if (cells[row][column].state == WATER) WaterCount++;
             Color color;
             if (cells[row][column].state != EMPTY) {
@@ -17,7 +19,8 @@ void Grid::Draw(){
             DrawRectangle(column*cellSize, row*cellSize, cellSize, cellSize, color);
         }
     }
-    DrawText(("Water: " + std::to_string(WaterCount)).c_str(), 10, 30, 10, WHITE);
+    DrawText(("Sand: " + std::to_string(SandCount)).c_str(), 10, 30, 10, WHITE);
+    DrawText(("Water: " + std::to_string(WaterCount)).c_str(), 10, 40, 10, WHITE);
 }
 
 void Grid::Set(int row, int column, Color color, Grid::State stateInput) {

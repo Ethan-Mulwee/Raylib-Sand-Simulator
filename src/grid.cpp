@@ -32,7 +32,7 @@ void Grid::Set(int row, int column, Color color, Grid::State stateInput) {
 }
 
 void Grid::Step() {
-    tempcells = std::vector<std::vector<cell>>(rows, std::vector<cell>(columns, cell(EMPTY)));
+    
     for (int row = 0; row < rows; row++) {
         int column; 
         if (row % 2 == 0) column = 0;
@@ -52,21 +52,22 @@ void Grid::Step() {
                     if (GetRandomValue(0,1)) { a = 1; b = -1;} else { a = -1; b = 1;} 
                     if (CheckEmpty(row, 0, column, a)) {SetCell(row, 0, column, a); goto next;}
                     if (CheckEmpty(row, 0, column, b)) {SetCell(row, 0, column, b); goto next;}
-                    if (tempcells[row][column].state == EMPTY) {SetCell(row, 0, column, 0); goto next;}
+                    if (cells[row][column].updated == false) {SetCell(row, 0, column, 0); goto next;}
 
                 case SAND:
-                    if (CheckEmpty(row, 1, column, 0)) {SetCell(row, 1, column, 0); goto next;}
-                    if (CheckCell(row, 1, column, 0, WATER)) {
-                        SetCell(row, 1, column, 0); 
-                        SetCell(row+1, -1, column, 0);
-                        cells[row+1][column].state = EMPTY;
-                        goto next;
-                    }
-                    if (GetRandomValue(0,1)) { a = 1; b = -1;}
-                    else { a = -1; b = 1;} 
-                    if (CheckEmpty(row, 1, column, a)) {SetCell(row, 1, column, a); goto next;}
-                    if (CheckEmpty(row, 1, column, b)) {if (SetCell(row, 1, column, b)) goto next;}
-                    SetCell(row, 0, column, 0); goto next;
+                     if (CheckEmpty(row, 1, column, 0)) {SetCell(row, 1, column, 0); goto next;}
+                    // if (CheckCell(row, 1, column, 0, WATER)) {
+                    //     SetCell(row, 1, column, 0); 
+                    //     SetCell(row+1, -1, column, 0);
+                    //     cells[row+1][column].state = EMPTY;
+                    //     goto next;
+                    // }
+                    // if (GetRandomValue(0,1)) { a = 1; b = -1;}
+                    // else { a = -1; b = 1;} 
+                    // if (CheckEmpty(row, 1, column, a)) {SetCell(row, 1, column, a); goto next;}
+                    // if (CheckEmpty(row, 1, column, b)) {if (SetCell(row, 1, column, b)) goto next;}
+                    // SetCell(row, 0, column, 0); 
+                    goto next;
             }
             next:
             if (row % 2 == 0) {
@@ -79,13 +80,17 @@ void Grid::Step() {
             }
         }
     }
-    cells = tempcells;
+    for (int row = 0; row < rows; row++) { 
+        for (int column = 0; columns < columns; column++) {
+            cells[row][column].clear();
+        }
+    }
 }
 
 bool Grid::CheckEmpty(int row, int rowOffset, int column, int columnOffset)
 {
     if (column+columnOffset < columns && column+columnOffset >= 0 && row + rowOffset < rows && row+rowOffset >= 0) {
-        return cells[row + rowOffset][column + columnOffset].state == EMPTY && tempcells[row + rowOffset][column + columnOffset].state == EMPTY;
+        return cells[row + rowOffset][column + columnOffset].state == EMPTY && cells[row][column].updated;
     }
     return false;
 }
@@ -93,7 +98,7 @@ bool Grid::CheckEmpty(int row, int rowOffset, int column, int columnOffset)
 bool Grid::CheckCell(int row, int rowOffset, int column, int columnOffset, Grid::State stateInput)
 {
     if (column+columnOffset < columns && column+columnOffset >= 0 && row + rowOffset < rows && row+rowOffset >= 0) {
-        return cells[row + rowOffset][column + columnOffset].state == stateInput && tempcells[row + rowOffset][column + columnOffset].state == EMPTY;
+        return cells[row + rowOffset][column + columnOffset].state == stateInput && cells[row + rowOffset][column + columnOffset].updated;
     }
     return false;
 }
@@ -102,17 +107,12 @@ bool Grid::CheckCell(int row, int rowOffset, int column, int columnOffset, Grid:
 bool Grid::SetCell(int row, int rowOffset, int column, int columnOffset)
 {
     if (column+columnOffset < columns && column+columnOffset >= 0 && row + rowOffset < rows && row+rowOffset >= 0) {
-        tempcells[row + rowOffset][column + columnOffset].color = cells[row][column].color;
-        tempcells[row + rowOffset][column + columnOffset].state = cells[row][column].state;
+        cells[row + rowOffset][column + columnOffset].color = cells[row][column].color;
+        cells[row + rowOffset][column + columnOffset].state = cells[row][column].state;
+        cells[row + rowOffset][column + columnOffset].updated = true;
+        cells[row][column].state = EMPTY;
         return true;
     }
     return false;
 }
 
-void Grid::SetCellState(int row, int rowOffset, int column, int columnOffset, Grid::State stateInput)
-{
-    if (column+columnOffset < columns && column+columnOffset >= 0 && row + rowOffset < rows && row+rowOffset >= 0) {
-        tempcells[row + rowOffset][column + columnOffset].color = WHITE;
-        tempcells[row + rowOffset][column + columnOffset].state = stateInput;
-    }
-}

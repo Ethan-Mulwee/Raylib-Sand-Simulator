@@ -8,15 +8,15 @@
 
 int main()
 {
-    const int screenWidth = 1280;
-    const int screenHeight = 720;
-    const int gridScale = 10;
-    Grid grid = Grid(72,128,gridScale);
+    const int screenWidth = 1920;
+    const int screenHeight = 1080;
+    const int gridScale = 5;
+    Grid grid = Grid(108*2,192*2,gridScale);
     Grid::State state = Grid::State::SAND;
     
 
     InitWindow(screenWidth, screenHeight, "Sand Simulation");
-    SetTargetFPS(60);
+    SetTargetFPS(100);
 
     while (!WindowShouldClose())
     {
@@ -30,15 +30,16 @@ int main()
         double brightness;
         switch(state) {
             case Grid::State::SAND:
-            color = Color{(unsigned char)((sin(GetTime()*0.2)*50)+155),(unsigned char)((sin(GetTime()+540*0.05)*50)+155),(unsigned char)((sin(GetTime()+12305*0.1)*50)+155),255};
+            brightness = GetRandomValue(95,100)*0.01;
+            color = Color{(unsigned char)(((sin(GetTime()*0.2)*50)+155)*brightness),(unsigned char)(((sin(GetTime()+540*0.05)*50)+155)*brightness),(unsigned char)(((sin(GetTime()+12305*0.1)*50)+155)*brightness),255};
             break;
             case Grid::State::WOOD:
-            brightness = (GetRandomValue(85,100)+((sin((GetTime()*0.1)))*0))*0.01;
-            color = Color{(unsigned char)(70*brightness),(unsigned char)(40*brightness),(unsigned char)(10*brightness),255};
+            brightness = (GetRandomValue(95,100)+((sin((GetTime()*0.1)))*0))*0.01;
+            color = Color{(unsigned char)(50*brightness),(unsigned char)(30*brightness),(unsigned char)(15*brightness),255};
             break;
             case Grid::State::WATER:
-            brightness = (GetRandomValue(85,100)+((sin((GetTime()*0.1)))*0))*0.01;
-            color = Color{(unsigned char)(10*brightness),(unsigned char)(80*brightness),(unsigned char)(180*brightness),255};
+            brightness = (GetRandomValue(90,100)+((sin((GetTime()*0.1)))*0))*0.01;
+            color = Color{(unsigned char)(10*brightness),(unsigned char)(80*brightness),(unsigned char)(180*brightness),100};
         }
         if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
             int x = GetMouseX()/gridScale;

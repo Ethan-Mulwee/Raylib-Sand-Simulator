@@ -13,7 +13,6 @@ class Grid {
         bool CheckEmpty(int row, int rowOffset, int column, int columnOffset);
         bool SetCell(int row, int rowOffset, int column, int columnOffset);
         bool CheckCell(int row, int rowOffset, int column, int columnOffset, Grid::State stateInput);
-        void SetCellState(int row, int rowOffset, int column, int columnOffset, Grid::State stateInput);
 
     private:
         int rows;
@@ -23,8 +22,12 @@ class Grid {
         {
             Color color = Color{0,0,0,255};
             State state;
+            bool updated = false;
             cell(State inputState) {
                 state = inputState;
+            }
+            void clear() {
+                updated = false;
             }
         };
         std::vector<std::vector<cell>> cells;

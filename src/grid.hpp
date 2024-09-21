@@ -10,11 +10,13 @@ class Grid {
         void Draw();
         void Set(int row, int column, Color color, State stateInput);
         void Step();
+        void SetCell(int row, int offsetRow, int column, int offsetColumn);
+
     private:
         int rows;
         int columns;
         int cellSize;
-        struct  cell
+        struct cell
         {
             Color color = Color{0,0,0,255};
             State state;
@@ -23,4 +25,5 @@ class Grid {
             }
         };
         std::vector<std::vector<cell>> cells;
+        std::vector<std::vector<cell>> tempcells;
 };

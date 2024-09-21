@@ -24,7 +24,7 @@ void Grid::Set(int row, int column, Color color, Grid::State stateInput) {
 }
 
 void Grid::Step() {
-    std::vector<std::vector<cell>> tempcells = std::vector<std::vector<cell>>(rows, std::vector<cell>(columns, cell(EMPTY)));
+    tempcells = std::vector<std::vector<cell>>(rows, std::vector<cell>(columns, cell(EMPTY)));
     for (int row = 0; row < rows; row++) {
         //TODO: Alternate loop direction
         for (int column = 0; column < columns; column++) {
@@ -32,20 +32,17 @@ void Grid::Step() {
             if (cells[row][column].state == EMPTY) continue;
             //Is cell at the bottom?
             if (row == rows-1) {
-                tempcells[row][column].color = cells[row][column].color;
-                tempcells[row][column].state = cells[row][column].state;
+                SetCell(row, 0, column, 0);
                 continue;
             }
             //Is the cell wood?
             if (cells[row][column].state == WOOD) {
-                tempcells[row][column].color = cells[row][column].color;
-                tempcells[row][column].state = cells[row][column].state;
+                SetCell(row, 0, column, 0);
                 continue;
             }
             //Is the cell below empty?
             if (cells[row+1][column].state == EMPTY && tempcells[row+1][column].state == EMPTY) {
-                tempcells[row+1][column].color = cells[row][column].color;
-                tempcells[row+1][column].state = cells[row][column].state;
+                SetCell(row, 1, column, 0);
                 continue;
             }
             //Is the cell water?
@@ -75,15 +72,6 @@ void Grid::Step() {
                 }
                 tempcells[row][column].state = cells[row][column].state;
                 tempcells[row][column].color = cells[row][column].color;
-                continue;
-            }
-            //Is the cell below water?
-            if (cells[row+1][column].state == WATER) {
-                //Swap
-                tempcells[row][column].color = cells[row+1][column].color;
-                tempcells[row][column].state = cells[row+1][column].state;
-                tempcells[row+1][column].color = WHITE;
-                tempcells[row+1][column].state = SAND;
                 continue;
             }
             
@@ -119,4 +107,10 @@ void Grid::Step() {
         }
     }
     cells = tempcells;
+}
+
+void Grid::SetCell(int row, int offsetRow, int column, int offsetColumn)
+{
+    tempcells[row + offsetRow][column + offsetColumn].color = cells[row][column].color;
+    tempcells[row + offsetRow][column + offsetColumn].state = cells[row][column].state;
 }

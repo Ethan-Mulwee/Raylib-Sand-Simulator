@@ -10,7 +10,7 @@ class Grid {
         void Draw();
         void Set(int row, int column, Color color, State stateInput);
         void Step();
-        bool CheckCell(int row, int rowOffset, int column, int columnOffset, Grid::State checkState);
+        bool CheckEmpty(int row, int rowOffset, int column, int columnOffset);
         bool SetCell(int row, int rowOffset, int column, int columnOffset);
 
     private:

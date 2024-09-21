@@ -28,55 +28,61 @@ void Grid::Step() {
     tempcells = std::vector<std::vector<cell>>(rows, std::vector<cell>(columns, cell(EMPTY)));
     for (int row = 0; row < rows; row++) {
         //TODO: Alternate loop direction
-        for (int column = 0; column < columns; column++) {
+        int column; 
+        if (row % 2 == 0) column = 0;
+        else column = columns-1;
+        while (true) {
             //Is cell empty?
-            if (cells[row][column].state == EMPTY) continue;
+            if (cells[row][column].state == EMPTY) goto next;
             //Is the cell wood?
             if (cells[row][column].state == WOOD) {
                 SetCell(row, 0, column, 0);
-                continue;
+                goto next;
             }
             //Is the cell below empty?
-            if (CheckCell(row, 1, column, 0, EMPTY))
+            if (CheckEmpty(row, 1, column, 0))
             {
                 SetCell(row, 1, column, 0);
-                continue;
+                goto next;
             }
             //Is the cell water?
             if (cells[row][column].state == WATER) {
                 int a, b;
-                if (GetRandomValue(0,1)) { a = 1; b = -1;}
-                else { a = -1; b = 1;} 
-                if (cells[row][column+a].state == EMPTY && tempcells[row][column+a].state == EMPTY) {
-                    if (SetCell(row, 0, column, a)) continue;
-                }
-                if (cells[row][column+b].state == EMPTY && tempcells[row][column+b].state == EMPTY) {
-                    if (SetCell(row, 0, column, b)) continue;
-                }
-                SetCell(row, 0, column, 0);
-                continue;
+                if (GetRandomValue(0,1)) { a = 1; b = -1;} else { a = -1; b = 1;} 
+                if (CheckEmpty(row, 0, column, a)) {SetCell(row, 0, column, a); goto next;}
+                if (CheckEmpty(row, 0, column, b)) {SetCell(row, 0, column, b); goto next;}
+                SetCell(row, 0, column, 0); goto next;
             }
             
             int a, b;
             if (GetRandomValue(0,1)) { a = 1; b = -1;}
             else { a = -1; b = 1;} 
-            if (CheckCell(row, 1, column, a, EMPTY)) {
-                if (SetCell(row, 1, column, a)) continue;
+            if (CheckEmpty(row, 1, column, a)) {
+                if (SetCell(row, 1, column, a)) goto next;
             }
-            if (CheckCell(row, 1, column, b, EMPTY)) {
-                if (SetCell(row, 1, column, b)) continue;
+            if (CheckEmpty(row, 1, column, b)) {
+                if (SetCell(row, 1, column, b)) goto next;
             }
             //If no to all then the cell stays the same
             SetCell(row, 0, column, 0);
+            next:
+            if (row % 2 == 0) {
+                column++;
+                if (column >= columns) break;
+            }
+            else {
+                column--;
+                if (column < 0) break;
+            }
         }
     }
     cells = tempcells;
 }
 
-bool Grid::CheckCell(int row, int rowOffset, int column, int columnOffset, Grid::State checkState)
+bool Grid::CheckEmpty(int row, int rowOffset, int column, int columnOffset)
 {
     if (column+columnOffset < columns && column+columnOffset >= 0 && row + rowOffset < rows && row+rowOffset >= 0) {
-        return cells[row + rowOffset][column + columnOffset].state == checkState && tempcells[row + rowOffset][column + columnOffset].state == checkState;
+        return cells[row + rowOffset][column + columnOffset].state == EMPTY && tempcells[row + rowOffset][column + columnOffset].state == EMPTY;
     }
     return false;
 }

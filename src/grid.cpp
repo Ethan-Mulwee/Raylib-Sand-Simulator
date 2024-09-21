@@ -1,10 +1,13 @@
 #include "grid.hpp"
 #include "raylib.h"
 #include "stdio.h"
+#include "string"
 
 void Grid::Draw(){
+    int WaterCount = 0;
     for (int row = 0; row < rows; row++) {
         for (int column = 0; column < columns; column++) {
+            if (cells[row][column].state == WATER) WaterCount++;
             Color color;
             if (cells[row][column].state != EMPTY) {
                 color = cells[row][column].color;
@@ -14,6 +17,7 @@ void Grid::Draw(){
             DrawRectangle(column*cellSize, row*cellSize, cellSize, cellSize, color);
         }
     }
+    DrawText(("Water: " + std::to_string(WaterCount)).c_str(), 10, 30, 10, WHITE);
 }
 
 void Grid::Set(int row, int column, Color color, Grid::State stateInput) {
@@ -45,10 +49,16 @@ void Grid::Step() {
                     if (GetRandomValue(0,1)) { a = 1; b = -1;} else { a = -1; b = 1;} 
                     if (CheckEmpty(row, 0, column, a)) {SetCell(row, 0, column, a); goto next;}
                     if (CheckEmpty(row, 0, column, b)) {SetCell(row, 0, column, b); goto next;}
-                    SetCell(row, 0, column, 0); goto next;
+                    if (tempcells[row][column].state == EMPTY) {SetCell(row, 0, column, 0); goto next;}
 
                 case SAND:
                     if (CheckEmpty(row, 1, column, 0)) {SetCell(row, 1, column, 0); goto next;}
+                    if (CheckCell(row, 1, column, 0, WATER)) {
+                        SetCell(row, 1, column, 0); 
+                        SetCell(row+1, -1, column, 0);
+                        cells[row+1][column].state = EMPTY;
+                        goto next;
+                    }
                     if (GetRandomValue(0,1)) { a = 1; b = -1;}
                     else { a = -1; b = 1;} 
                     if (CheckEmpty(row, 1, column, a)) {SetCell(row, 1, column, a); goto next;}
@@ -77,6 +87,14 @@ bool Grid::CheckEmpty(int row, int rowOffset, int column, int columnOffset)
     return false;
 }
 
+bool Grid::CheckCell(int row, int rowOffset, int column, int columnOffset, Grid::State stateInput)
+{
+    if (column+columnOffset < columns && column+columnOffset >= 0 && row + rowOffset < rows && row+rowOffset >= 0) {
+        return cells[row + rowOffset][column + columnOffset].state == stateInput && tempcells[row + rowOffset][column + columnOffset].state == EMPTY;
+    }
+    return false;
+}
+
 //Return true if in bounds and false if out of bounds
 bool Grid::SetCell(int row, int rowOffset, int column, int columnOffset)
 {
@@ -86,4 +104,12 @@ bool Grid::SetCell(int row, int rowOffset, int column, int columnOffset)
         return true;
     }
     return false;
+}
+
+void Grid::SetCellState(int row, int rowOffset, int column, int columnOffset, Grid::State stateInput)
+{
+    if (column+columnOffset < columns && column+columnOffset >= 0 && row + rowOffset < rows && row+rowOffset >= 0) {
+        tempcells[row + rowOffset][column + columnOffset].color = WHITE;
+        tempcells[row + rowOffset][column + columnOffset].state = stateInput;
+    }
 }

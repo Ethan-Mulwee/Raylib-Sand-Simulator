@@ -28,24 +28,27 @@ int main()
         if (IsKeyPressed(KEY_TWO)) state = Grid::State::WOOD;
         if (IsKeyPressed(KEY_THREE)) state = Grid::State::WATER;
         Color color;
+        double brightness;
         switch(state) {
             case Grid::State::SAND:
             color = Color{(unsigned char)((sin(GetTime()*0.2)*50)+155),(unsigned char)((sin(GetTime()+540*0.05)*50)+155),(unsigned char)((sin(GetTime()+12305*0.1)*50)+155),255};
             break;
             case Grid::State::WOOD:
-            color = Color{70,40,10, 255};
+            brightness = (GetRandomValue(85,100)+((sin((GetTime()*0.1)))*0))*0.01;
+            color = Color{(unsigned char)(70*brightness),(unsigned char)(40*brightness),(unsigned char)(10*brightness),255};
             break;
             case Grid::State::WATER:
-            color = Color{10,80,180,255};
+            brightness = (GetRandomValue(85,100)+((sin((GetTime()*0.1)))*0))*0.01;
+            color = Color{(unsigned char)(10*brightness),(unsigned char)(80*brightness),(unsigned char)(180*brightness),255};
         }
         if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
             int x = GetMouseX()/gridScale;
             int y = GetMouseY()/gridScale; 
             grid.Set(y, x, color, state);
-            grid.Set(y+1, x, color, state);
-            grid.Set(y-1, x, color, state);
-            grid.Set(y, x+1, color, state);
-            grid.Set(y, x-1, color, state);
+            //grid.Set(y+1, x, color, state);
+            //grid.Set(y-1, x, color, state);
+            //grid.Set(y, x+1, color, state);
+            //grid.Set(y, x-1, color, state);
         }
         grid.Step();
         grid.Draw();

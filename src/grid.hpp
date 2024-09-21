@@ -12,6 +12,8 @@ class Grid {
         void Step();
         bool CheckEmpty(int row, int rowOffset, int column, int columnOffset);
         bool SetCell(int row, int rowOffset, int column, int columnOffset);
+        bool CheckCell(int row, int rowOffset, int column, int columnOffset, Grid::State stateInput);
+        void SetCellState(int row, int rowOffset, int column, int columnOffset, Grid::State stateInput);
 
     private:
         int rows;

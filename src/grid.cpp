@@ -49,61 +49,51 @@ void Grid::Step() {
             if (cells[row][column].state == WATER) {
                 if (GetRandomValue(0,1)) {
                     if (column != columns-1 && cells[row][column+1].state == EMPTY && tempcells[row][column+1].state == EMPTY) {
-                        tempcells[row][column+1].state = cells[row][column].state;
-                        tempcells[row][column+1].color = cells[row][column].color;
+                        SetCell(row, 0, column, 1);
                         continue;
                     }
                     if (column != 0 && cells[row][column-1].state == EMPTY && tempcells[row][column-1].state == EMPTY) {
-                        tempcells[row][column-1].state = cells[row][column].state;
-                        tempcells[row][column-1].color = cells[row][column].color;
+                        SetCell(row, 0, column, -1);
                         continue;
                     }
                 } else {
                     if (column != 0 && cells[row][column-1].state == EMPTY && tempcells[row][column-1].state == EMPTY) {
-                        tempcells[row][column-1].state = cells[row][column].state;
-                        tempcells[row][column-1].color = cells[row][column].color;
+                        SetCell(row, 0, column, -1);
                         continue;
                     }
                     if (column != columns-1 && cells[row][column+1].state == EMPTY && tempcells[row][column+1].state == EMPTY) {
-                        tempcells[row][column+1].state = cells[row][column].state;
-                        tempcells[row][column+1].color = cells[row][column].color;
+                        SetCell(row, 0, column, 1);
                         continue;
                     }
                 }
-                tempcells[row][column].state = cells[row][column].state;
-                tempcells[row][column].color = cells[row][column].color;
+                SetCell(row, 0, column, 0);
                 continue;
             }
             
             if (GetRandomValue(0,1)) {
                 //Check right then left
                 if (column != columns-1 && cells[row+1][column+1].state == EMPTY && tempcells[row+1][column+1].state == EMPTY) {
-                    tempcells[row+1][column+1].state = cells[row][column].state;
-                    tempcells[row+1][column+1].color = cells[row][column].color;
+                    SetCell(row, 1, column, 1);
                     continue;
                 }
                 if (column != 0 && cells[row+1][column-1].state == EMPTY && tempcells[row+1][column-1].state == EMPTY) {
-                    tempcells[row+1][column-1].state = cells[row][column].state;
-                    tempcells[row+1][column-1].color = cells[row][column].color;
+                    SetCell(row, 1, column, -1);
                     continue;
                 }
             } 
             else {
                 //Check left then right
                 if (column != 0 && cells[row+1][column-1].state == EMPTY && tempcells[row+1][column-1].state == EMPTY) {
-                    tempcells[row+1][column-1].state = cells[row][column].state;
-                    tempcells[row+1][column-1].color = cells[row][column].color;
+                    SetCell(row, 1, column, -1);
                     continue;
                 }
                 if (column != columns-1 && cells[row+1][column+1].state == EMPTY && tempcells[row+1][column+1].state == EMPTY) {
-                    tempcells[row+1][column+1].state = cells[row][column].state;
-                    tempcells[row+1][column+1].color = cells[row][column].color;
+                    SetCell(row, 1, column, 1);
                     continue;
                 }
             }
             //If no to all then the cell stays the same
-            tempcells[row][column].state = cells[row][column].state;
-            tempcells[row][column].color = cells[row][column].color;
+            SetCell(row, 0, column, 0);
         }
     }
     cells = tempcells;

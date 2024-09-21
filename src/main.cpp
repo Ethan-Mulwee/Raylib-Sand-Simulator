@@ -17,18 +17,16 @@ int main()
     
 
     InitWindow(screenWidth, screenHeight, "Sand Simulation");
-    SetTargetFPS(200);
+    SetTargetFPS(60);
 
     while (!WindowShouldClose())
     {
         BeginDrawing();
         ClearBackground(DARKGRAY);
-        if (IsKeyPressed(KEY_ONE)) {
-            state = Grid::State::SAND;
-        }
-        if (IsKeyPressed(KEY_TWO)) {
-            state = Grid::State::WOOD;
-        }
+        if (IsKeyPressed(KEY_ZERO)) state = Grid::State::EMPTY;
+        if (IsKeyPressed(KEY_ONE)) state = Grid::State::SAND;
+        if (IsKeyPressed(KEY_TWO)) state = Grid::State::WOOD;
+        if (IsKeyPressed(KEY_THREE)) state = Grid::State::WATER;
         Color color;
         switch(state) {
             case Grid::State::SAND:
@@ -37,6 +35,8 @@ int main()
             case Grid::State::WOOD:
             color = Color{70,40,10, 255};
             break;
+            case Grid::State::WATER:
+            color = Color{10,80,180,255};
         }
         if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
             int x = GetMouseX()/gridScale;

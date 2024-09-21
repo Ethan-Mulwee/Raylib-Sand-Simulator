@@ -26,6 +26,7 @@ void Grid::Set(int row, int column, Color color, Grid::State stateInput) {
 void Grid::Step() {
     std::vector<std::vector<cell>> tempcells = std::vector<std::vector<cell>>(rows, std::vector<cell>(columns, cell(EMPTY)));
     for (int row = 0; row < rows; row++) {
+        //TODO: Alternate loop direction
         for (int column = 0; column < columns; column++) {
             //Is cell empty?
             if (cells[row][column].state == EMPTY) continue;
@@ -42,19 +43,58 @@ void Grid::Step() {
                 continue;
             }
             //Is the cell below empty?
-            if (cells[row+1][column].state == EMPTY) {
+            if (cells[row+1][column].state == EMPTY && tempcells[row+1][column].state == EMPTY) {
                 tempcells[row+1][column].color = cells[row][column].color;
                 tempcells[row+1][column].state = cells[row][column].state;
                 continue;
             }
+            //Is the cell water?
+            if (cells[row][column].state == WATER) {
+                if (GetRandomValue(0,1)) {
+                    if (column != columns-1 && cells[row][column+1].state == EMPTY && tempcells[row][column+1].state == EMPTY) {
+                        tempcells[row][column+1].state = cells[row][column].state;
+                        tempcells[row][column+1].color = cells[row][column].color;
+                        continue;
+                    }
+                    if (column != 0 && cells[row][column-1].state == EMPTY && tempcells[row][column-1].state == EMPTY) {
+                        tempcells[row][column-1].state = cells[row][column].state;
+                        tempcells[row][column-1].color = cells[row][column].color;
+                        continue;
+                    }
+                } else {
+                    if (column != 0 && cells[row][column-1].state == EMPTY && tempcells[row][column-1].state == EMPTY) {
+                        tempcells[row][column-1].state = cells[row][column].state;
+                        tempcells[row][column-1].color = cells[row][column].color;
+                        continue;
+                    }
+                    if (column != columns-1 && cells[row][column+1].state == EMPTY && tempcells[row][column+1].state == EMPTY) {
+                        tempcells[row][column+1].state = cells[row][column].state;
+                        tempcells[row][column+1].color = cells[row][column].color;
+                        continue;
+                    }
+                }
+                tempcells[row][column].state = cells[row][column].state;
+                tempcells[row][column].color = cells[row][column].color;
+                continue;
+            }
+            //Is the cell below water?
+            if (cells[row+1][column].state == WATER) {
+                //Swap
+                tempcells[row][column].color = cells[row+1][column].color;
+                tempcells[row][column].state = cells[row+1][column].state;
+                tempcells[row+1][column].color = WHITE;
+                tempcells[row+1][column].state = SAND;
+                continue;
+            }
+            
             if (GetRandomValue(0,1)) {
                 //Check right then left
-                if (column != columns-1 && cells[row+1][column+1].state == EMPTY) {
+                if (column != columns-1 && cells[row+1][column+1].state == EMPTY && tempcells[row+1][column+1].state == EMPTY) {
                     tempcells[row+1][column+1].state = cells[row][column].state;
                     tempcells[row+1][column+1].color = cells[row][column].color;
                     continue;
                 }
-                if (column != 0 && cells[row+1][column-1].state == EMPTY) {
+                if (column != 0 && cells[row+1][column-1].state == EMPTY && tempcells[row+1][column-1].state == EMPTY) {
                     tempcells[row+1][column-1].state = cells[row][column].state;
                     tempcells[row+1][column-1].color = cells[row][column].color;
                     continue;
@@ -62,12 +102,12 @@ void Grid::Step() {
             } 
             else {
                 //Check left then right
-                if (column != 0 && cells[row+1][column-1].state == EMPTY) {
+                if (column != 0 && cells[row+1][column-1].state == EMPTY && tempcells[row+1][column-1].state == EMPTY) {
                     tempcells[row+1][column-1].state = cells[row][column].state;
                     tempcells[row+1][column-1].color = cells[row][column].color;
                     continue;
                 }
-                if (column != columns-1 && cells[row+1][column+1].state == EMPTY) {
+                if (column != columns-1 && cells[row+1][column+1].state == EMPTY && tempcells[row+1][column+1].state == EMPTY) {
                     tempcells[row+1][column+1].state = cells[row][column].state;
                     tempcells[row+1][column+1].color = cells[row][column].color;
                     continue;

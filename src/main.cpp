@@ -45,10 +45,10 @@ int main()
             int x = GetMouseX()/gridScale;
             int y = GetMouseY()/gridScale; 
             grid.Set(y, x, color, state);
-            // grid.Set(y+1, x, color, state);
-            // grid.Set(y-1, x, color, state);
-            // grid.Set(y, x+1, color, state);
-            // grid.Set(y, x-1, color, state);
+            grid.Set(y+1, x, color, state);
+            grid.Set(y-1, x, color, state);
+            grid.Set(y, x+1, color, state);
+            grid.Set(y, x-1, color, state);
         }
         grid.Step();
         grid.Draw();

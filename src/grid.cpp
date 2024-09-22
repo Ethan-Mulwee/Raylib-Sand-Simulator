@@ -89,7 +89,7 @@ void Grid::Step() {
 bool Grid::CheckEmpty(int row, int rowOffset, int column, int columnOffset)
 {
     if (column+columnOffset < columns && column+columnOffset >= 0 && row + rowOffset < rows && row+rowOffset >= 0) {
-        return cells[row + rowOffset][column + columnOffset].state == EMPTY && !cells[row][column].updated && !cells[row+rowOffset][columnOffset].updated;
+        return cells[row + rowOffset][column + columnOffset].state == EMPTY && !cells[row][column].updated;
     }
     return false;
 }
@@ -97,7 +97,7 @@ bool Grid::CheckEmpty(int row, int rowOffset, int column, int columnOffset)
 bool Grid::CheckCell(int row, int rowOffset, int column, int columnOffset, Grid::State stateInput)
 {
     if (column+columnOffset < columns && column+columnOffset >= 0 && row + rowOffset < rows && row+rowOffset >= 0) {
-        return cells[row + rowOffset][column + columnOffset].state == stateInput && !cells[row][column].updated && !cells[row+rowOffset][columnOffset].updated;
+        return cells[row + rowOffset][column + columnOffset].state == stateInput && !cells[row][column].updated;
     }
     return false;
 }

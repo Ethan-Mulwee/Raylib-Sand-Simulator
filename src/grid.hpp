@@ -23,12 +23,12 @@ class Grid {
         {
             Color color = Color{0,0,0,255};
             State state;
-            bool updated = false;
+            int updated = 0;
             cell(State inputState) {
                 state = inputState;
             }
             void clear() {
-                updated = false;
+                updated = 0;
             }
         };
         std::vector<std::vector<cell>> cells;

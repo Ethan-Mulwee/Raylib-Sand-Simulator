@@ -44,7 +44,7 @@ void Grid::Step() {
                     goto next;
 
                 case WOOD:
-                    cells[row][column].updated = true;
+                    cells[row][column].updated = 1;
                     goto next;
 
                 case WATER:
@@ -52,7 +52,7 @@ void Grid::Step() {
                     if (GetRandomValue(0,1)) { a = 1; b = -1;} else { a = -1; b = 1;} 
                     if (CheckEmpty(row, 0, column, a)) {MoveCell(row, 0, column, a); goto next;}
                     if (CheckEmpty(row, 0, column, b)) {MoveCell(row, 0, column, b); goto next;}
-                    cells[row][column].updated = true;
+                    cells[row][column].updated = 1;
                     goto next;
 
                 case SAND:
@@ -65,7 +65,7 @@ void Grid::Step() {
                     else { a = -1; b = 1;} 
                     if (CheckEmpty(row, 1, column, a)) {MoveCell(row, 1, column, a); goto next;}
                     if (CheckEmpty(row, 1, column, b)) {if (MoveCell(row, 1, column, b)) goto next;}
-                    cells[row][column].updated = true;
+                    cells[row][column].updated = 1;
                     goto next;
             }
             next:
@@ -97,7 +97,7 @@ bool Grid::CheckEmpty(int row, int rowOffset, int column, int columnOffset)
 bool Grid::CheckCell(int row, int rowOffset, int column, int columnOffset, Grid::State stateInput)
 {
     if (column+columnOffset < columns && column+columnOffset >= 0 && row + rowOffset < rows && row+rowOffset >= 0) {
-        return cells[row + rowOffset][column + columnOffset].state == stateInput && !cells[row][column].updated;
+        return cells[row + rowOffset][column + columnOffset].state == stateInput && !cells[row][column].updated && 2 > cells[row+rowOffset][column+columnOffset].updated;
     }
     return false;
 }
@@ -108,7 +108,7 @@ bool Grid::MoveCell(int row, int rowOffset, int column, int columnOffset)
     if (column+columnOffset < columns && column+columnOffset >= 0 && row + rowOffset < rows && row+rowOffset >= 0) {
         cells[row + rowOffset][column + columnOffset].color = cells[row][column].color;
         cells[row + rowOffset][column + columnOffset].state = cells[row][column].state;
-        cells[row + rowOffset][column + columnOffset].updated = true;
+        cells[row + rowOffset][column + columnOffset].updated = 1;
         cells[row][column].state = EMPTY;
         return true;
     }
@@ -118,8 +118,8 @@ bool Grid::MoveCell(int row, int rowOffset, int column, int columnOffset)
 bool Grid::SwapCell(int row1, int row2, int column1, int column2) {
     cell cell1 = cells[row1][column1];
     cell cell2 = cells[row2][column2];
-    cell1.updated = true;
-    cell2.updated = true;
+    cell1.updated += 1;
+    cell2.updated += 1;
     cells[row1][column1] = cell2;
     cells[row2][column2] = cell1;
 }

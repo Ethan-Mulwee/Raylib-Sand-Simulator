@@ -11,7 +11,8 @@ class Grid {
         void Set(int row, int column, Color color, State stateInput);
         void Step();
         bool CheckEmpty(int row, int rowOffset, int column, int columnOffset);
-        bool SetCell(int row, int rowOffset, int column, int columnOffset);
+        bool MoveCell(int row, int rowOffset, int column, int columnOffset);
+        bool SwapCell(int row1, int row2, int column1, int column2);
         bool CheckCell(int row, int rowOffset, int column, int columnOffset, Grid::State stateInput);
 
     private:

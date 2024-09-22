@@ -8,10 +8,10 @@
 
 int main()
 {
-    const int screenWidth = 1920;
-    const int screenHeight = 1080;
-    const int gridScale = 5;
-    Grid grid = Grid(108*2,192*2,gridScale);
+    const int screenWidth = 1280;
+    const int screenHeight = 720;
+    const int gridScale = 10;
+    Grid grid = Grid(72,128,gridScale);
     Grid::State state = Grid::State::SAND;
     
 
@@ -45,10 +45,10 @@ int main()
             int x = GetMouseX()/gridScale;
             int y = GetMouseY()/gridScale; 
             grid.Set(y, x, color, state);
-            grid.Set(y+1, x, color, state);
-            grid.Set(y-1, x, color, state);
-            grid.Set(y, x+1, color, state);
-            grid.Set(y, x-1, color, state);
+            // grid.Set(y+1, x, color, state);
+            // grid.Set(y-1, x, color, state);
+            // grid.Set(y, x+1, color, state);
+            // grid.Set(y, x-1, color, state);
         }
         grid.Step();
         grid.Draw();

@@ -48,7 +48,10 @@ void Grid::Step() {
                     goto next;
 
                 case WATER:
-                    if (CheckEmpty(row, 1, column, 0)) {MoveCell(row, 1, column, 0); goto next;}
+                    if (CheckCell(row, -1, column, 0, SAND)) {
+                        Swap(&cells[row][column], &cells[row-1][column]);
+                    }
+                    if (CheckEmpty(row, 1, column, 0)) { Swap(&cells[row][column], &cells[row+1][column]); goto next;}
                     if (GetRandomValue(0,1)) { a = 1; b = -1;} else { a = -1; b = 1;} 
                     if (CheckEmpty(row, 0, column, a)) {MoveCell(row, 0, column, a); goto next;}
                     if (CheckEmpty(row, 0, column, b)) {MoveCell(row, 0, column, b); goto next;}
@@ -57,11 +60,10 @@ void Grid::Step() {
 
                 case SAND:
                      if (CheckEmpty(row, 1, column, 0)) {MoveCell(row, 1, column, 0); goto next;}
-                    if (CheckCell(row, 1, column, 0, WATER)) {
-                        //SwapCell(row, row+1, column, column);
-                        Swap(&cells[row][column], &cells[row+1][column]);
-                        goto next;
-                    }
+                    // if (CheckCell(row, 1, column, 0, WATER)) {
+                    //     Swap(&cells[row][column], &cells[row+1][column]);
+                    //     goto next;
+                    // }
                     if (GetRandomValue(0,1)) { a = 1; b = -1;}
                     else { a = -1; b = 1;} 
                     if (CheckEmpty(row, 1, column, a)) {MoveCell(row, 1, column, a); goto next;}
@@ -101,7 +103,7 @@ bool Grid::CheckEmpty(int row, int rowOffset, int column, int columnOffset)
 bool Grid::CheckCell(int row, int rowOffset, int column, int columnOffset, Grid::State stateInput)
 {
     if (column+columnOffset < columns && column+columnOffset >= 0 && row + rowOffset < rows && row+rowOffset >= 0) {
-        return cells[row + rowOffset][column + columnOffset].state == stateInput && !cells[row][column].updated && 2 > cells[row+rowOffset][column+columnOffset].updated;
+        return cells[row + rowOffset][column + columnOffset].state == stateInput && !cells[row][column].updated && 1 > cells[row+rowOffset][column+columnOffset].updated;
     }
     return false;
 }
@@ -123,5 +125,7 @@ void Grid::Swap(cell* a, cell* b) {
     cell temp = *a;
     *a = *b;
     *b = temp;
+    a->updated = 1;
+    b->updated = 1;
 }
 

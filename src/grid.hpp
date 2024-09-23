@@ -7,8 +7,7 @@ class Grid {
         Grid(int rows, int columns, int cellSize)
         : rows(rows), columns(columns), cellSize(cellSize), cells(rows, std::vector<cell>(columns, cell(EMPTY))){};
         typedef enum {EMPTY, SAND, WOOD, WATER, FIRE, SMOKE} State;
-        struct cell
-        {
+        struct cell {
             Color color = Color{0,0,0,255};
             State state;
             int updated = 0;
@@ -17,6 +16,9 @@ class Grid {
             }
             void clear() {
                 updated = 0;
+            }
+            void update() {
+
             }
         };
         void Draw();

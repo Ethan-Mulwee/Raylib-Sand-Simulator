@@ -26,6 +26,7 @@ int main()
         if (IsKeyPressed(KEY_ONE)) state = Grid::State::SAND;
         if (IsKeyPressed(KEY_TWO)) state = Grid::State::WOOD;
         if (IsKeyPressed(KEY_THREE)) state = Grid::State::WATER;
+        if (IsKeyPressed(KEY_FOUR)) state = Grid::State::FIRE;
         Color color;
         double brightness;
         switch(state) {
@@ -40,6 +41,10 @@ int main()
             case Grid::State::WATER:
             brightness = (GetRandomValue(90,100)+((sin((GetTime()*0.1)))*0))*0.01;
             color = Color{(unsigned char)(10*brightness),(unsigned char)(80*brightness),(unsigned char)(180*brightness),100};
+            break;
+            case Grid::State::FIRE:
+            color = Color{200,120,10,255};
+            break;
         }
         if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
             int x = GetMouseX()/gridScale;

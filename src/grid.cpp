@@ -67,6 +67,9 @@ void Grid::Step() {
                     if (CheckEmpty(row, 1, column, b)) {if (MoveCell(row, 1, column, b)) goto next;}
                     cells[row][column].updated = 1;
                     goto next;
+                case FIRE:
+                    cells[row][column].updated = 1;
+                    goto next;
             }
             next:
             if (row % 2 == 0) {

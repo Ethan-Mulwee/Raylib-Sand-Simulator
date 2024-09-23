@@ -58,7 +58,8 @@ void Grid::Step() {
                 case SAND:
                      if (CheckEmpty(row, 1, column, 0)) {MoveCell(row, 1, column, 0); goto next;}
                     if (CheckCell(row, 1, column, 0, WATER)) {
-                        SwapCell(row, row+1, column, column);
+                        //SwapCell(row, row+1, column, column);
+                        Swap(&cells[row][column], &cells[row+1][column]);
                         goto next;
                     }
                     if (GetRandomValue(0,1)) { a = 1; b = -1;}
@@ -118,12 +119,9 @@ bool Grid::MoveCell(int row, int rowOffset, int column, int columnOffset)
     return false;
 }
 
-bool Grid::SwapCell(int row1, int row2, int column1, int column2) {
-    cell cell1 = cells[row1][column1];
-    cell cell2 = cells[row2][column2];
-    cell1.updated += 1;
-    cell2.updated += 1;
-    cells[row1][column1] = cell2;
-    cells[row2][column2] = cell1;
+void Grid::Swap(cell* a, cell* b) {
+    cell temp = *a;
+    *a = *b;
+    *b = temp;
 }
 

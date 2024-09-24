@@ -1,12 +1,12 @@
 #pragma once
 #include <vector>
+#include <memory>
 #include "raylib.h"
 
 class Grid {
     public:
         Grid(int rows, int columns, int cellSize)
         : rows(rows), columns(columns), cellSize(cellSize), cells(rows, std::vector<cell>(columns, cell(EMPTY))){};
-        typedef enum {EMPTY, SAND, WOOD, WATER, FIRE, SMOKE} State;
         void Draw();
         void Set(int row, int column, Color color, State stateInput);
         void Step();
@@ -23,18 +23,23 @@ class Grid {
         int rows;
         int columns;
         int cellSize;
-        struct cell
-        {
-            Color color = Color{0,0,0,255};
-            State state;
-            int updated = 0;
-            cell(State inputState) {
-                state = inputState;
-            }
-            void clear() {
-                updated = 0;
-            }
-        };
-        std::vector<std::vector<cell>> cells;
-        std::vector<std::vector<cell>> tempcells;
+        std::vector<std::vector<std::shared_ptr<cell>>> cells;
+};
+class cell
+{
+    public:
+    virtual ~cell() {}
+    cell(Color colorI) {color = colorI;}
+    Color color = Color{0,0,0,255};
+    int update = 0;
+    virtual void update() {
+        
+    }
+};
+
+class sand : public cell {
+    public:
+    void update() {
+        color = WHITE;
+    }
 };

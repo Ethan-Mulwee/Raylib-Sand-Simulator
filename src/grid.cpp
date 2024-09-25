@@ -3,6 +3,7 @@
 #include "stdio.h"
 #include "string"
 
+
 void Grid::Step() {
     for (int row = rows-1; row >= 0; row--) {
         for (int column = 0; column < columns; column++) {

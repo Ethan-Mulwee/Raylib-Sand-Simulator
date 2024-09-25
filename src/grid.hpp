@@ -22,15 +22,16 @@ class Grid {
             Sand(Color colorI) {color = colorI;}
             void update(Grid* grid, int row, int column);
         };
+        std::vector<std::vector<std::shared_ptr<Cell>>> cells;
         Grid(int rows, int columns, int cellSize)
         : rows(rows), columns(columns), cellSize(cellSize), cells(rows, std::vector<std::shared_ptr<Cell>>(columns, std::make_shared<Cell>(BLACK, true))){};
         void Draw();
         void Set(int row, int column, std::shared_ptr<Cell> celltype);
         void Step();
+        void Swap();
         int rows;
         int columns;
         int cellSize;
-        std::vector<std::vector<std::shared_ptr<Cell>>> cells;
 };
 
 // class Behavior {

@@ -4,7 +4,7 @@
 #include "string"
 
 void Grid::Step() {
-    for (int row = 0; row < rows; row++) {
+    for (int row = rows-1; row >= 0; row--) {
         for (int column = 0; column < columns; column++) {
             cells[row][column]->update(this, row, column);
         }
@@ -29,5 +29,8 @@ void Grid::Set(int row, int column, std::shared_ptr<Cell> celltype) {
 
 void Grid::Sand::update(Grid* grid, int row, int column)
 {
-    (*grid).cells[row+1][column]->color = RED;
+    if (row+1 == (*grid).rows-1) return;
+    if ((*grid).cells[row+1][column]->empty) {
+        (*grid).Set(row+1, column, std::make_shared<Grid::Sand>(WHITE));
+    }
 }

@@ -8,7 +8,7 @@ void Grid::Draw(){
     int WaterCount = 0;
     for (int row = 0; row < rows; row++) {
         for (int column = 0; column < columns; column++) {
-            cells[row][column]->update();
+            cells[row][column]->update(&cells, row, column);
             if (!cells[row][column]->empty) DrawRectangle(column*cellSize, row*cellSize, cellSize, cellSize,cells[row][column]->color);
         }
     }
@@ -63,3 +63,7 @@ void Grid::Step() {
 //     cells[row2][column2] = cell1;
 // }
 
+void Grid::Sand::update(std::vector<std::vector<std::shared_ptr<Cell>>>* cells, int row, int column)
+{
+    if ((*cells)[row+1][column]->empty) (*cells)[row+1][column] = (*cells)[row][column];
+}

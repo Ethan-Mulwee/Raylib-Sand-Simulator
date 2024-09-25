@@ -15,7 +15,7 @@ class Grid {
             Cell() {}
             Cell(Color colorI, bool emptyI) {color = colorI; empty = emptyI;}
 
-            virtual void update() {
+            virtual void update(std::vector<std::vector<std::shared_ptr<Cell>>>* cells, int row, int column) {
                 
             }
         };
@@ -23,9 +23,7 @@ class Grid {
         class Sand : public Cell {
             public:
             Sand(Color colorI) {color = colorI;}
-            void update() {
-                color = Color{255,255,255,255};
-            }
+            void update(std::vector<std::vector<std::shared_ptr<Cell>>>* cells, int row, int column);
         };
         Grid(int rows, int columns, int cellSize)
         : rows(rows), columns(columns), cellSize(cellSize), cells(rows, std::vector<std::shared_ptr<Cell>>(columns, std::make_shared<Cell>(BLACK, true))){};

@@ -1,9 +1,8 @@
 #include <raylib.h>
-#include "grid.hpp"
+#include "simulation.hpp"
 #include <string>
 #include <iostream>
 #include <bits/stdc++.h>
-#include "main.h"
 #include <memory>
 
 
@@ -12,7 +11,8 @@ int main()
     const int screenWidth = 1280;
     const int screenHeight = 720;
     const int gridScale = 10;
-    Grid grid = Grid(72,128,gridScale);
+    IntializeGrid(72, 128);
+    cellSize = gridScale;
     
 
     InitWindow(screenWidth, screenHeight, "Sand Simulation");
@@ -25,10 +25,10 @@ int main()
         if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
             int x = GetMouseX()/gridScale;
             int y = GetMouseY()/gridScale; 
-            grid.Set(y, x, std::make_shared<Grid::Sand>(WHITE));
+            Set(y, x, std::make_shared<Sand>(WHITE));
         }
-        grid.Step();
-        grid.Draw();
+        Step();
+        Draw();
         DebugText();
         EndDrawing();
     }

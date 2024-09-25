@@ -9,7 +9,7 @@ int columns;
 int cellSize;
 
 void IntializeGrid(int rows, int columns) {
-    cells = std::vector<rows, std::vector<columns, std::make_shared<Cell>(BLACK, true)>>
+    cells = std::vector<std::vector<std::shared_ptr<Cell>>>(rows, std::vector<std::shared_ptr<Cell>>(columns, std::make_shared<Cell>(BLACK, true)));
 };
 
 class Cell

@@ -1,9 +1,10 @@
 #include <raylib.h>
-#include "grid.hpp"
 #include <string>
 #include <iostream>
 #include <bits/stdc++.h>
 #include "main.h"
+#include "grid.hpp"
+#include "button.hpp"
 
 
 int main()
@@ -13,7 +14,7 @@ int main()
     const int gridScale = 10;
     Grid grid = Grid(72,128,gridScale);
     Grid::State state = Grid::State::SAND;
-    
+    Button button = Button(10.0, 10.0, 10.0, 10.0, ORANGE);
 
     InitWindow(screenWidth, screenHeight, "Sand Simulation");
     SetTargetFPS(60);
@@ -31,6 +32,8 @@ int main()
 
         Color color;
         double brightness;
+        if (button.Check()) std::cout << "worked" << std::endl;
+
         switch(state) {
             case Grid::State::SAND:
             brightness = GetRandomValue(95,100)*0.01;
@@ -51,7 +54,7 @@ int main()
             color = Color{255,0,100,255};
             break;
         }
-        if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {
+        if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) && !button.UIHover) {
             int x = GetMouseX()/gridScale;
             int y = GetMouseY()/gridScale; 
             grid.Set(y, x, color, state);
@@ -63,6 +66,7 @@ int main()
         grid.Step();
         grid.Draw();
         DebugText();
+        button.Draw();
         EndDrawing();
     }
 

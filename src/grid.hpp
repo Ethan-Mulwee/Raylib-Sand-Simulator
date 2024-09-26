@@ -39,5 +39,4 @@ class Grid {
         int columns;
         int cellSize;
         std::vector<std::vector<cell>> cells;
-        std::vector<std::vector<cell>> tempcells;
 };

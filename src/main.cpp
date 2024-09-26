@@ -5,6 +5,7 @@
 #include "main.h"
 #include "grid.hpp"
 #include "button.hpp"
+#include "UI.hpp"
 
 
 int main()
@@ -14,7 +15,8 @@ int main()
     const int gridScale = 10;
     Grid grid = Grid(72,128,gridScale);
     Grid::State state = Grid::State::SAND;
-    Button button = Button(10.0, 10.0, 10.0, 10.0, ORANGE);
+    UI ui;
+    ui.buttons.push_back(Button(30.0, 30.0, 10.0, 10.0, ORANGE, "SAND"));
 
     InitWindow(screenWidth, screenHeight, "Sand Simulation");
     SetTargetFPS(60);
@@ -32,7 +34,8 @@ int main()
 
         Color color;
         double brightness;
-        if (button.Check()) std::cout << "worked" << std::endl;
+        ui.Check();
+        if (ui.buttons[0].action) std::cout << "worked" << std::endl;
 
         switch(state) {
             case Grid::State::SAND:
@@ -54,7 +57,7 @@ int main()
             color = Color{255,0,100,255};
             break;
         }
-        if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) && !button.UIHover) {
+        if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) && !ui.UIHover) {
             int x = GetMouseX()/gridScale;
             int y = GetMouseY()/gridScale; 
             grid.Set(y, x, color, state);
@@ -66,7 +69,7 @@ int main()
         grid.Step();
         grid.Draw();
         DebugText();
-        button.Draw();
+        ui.Draw();
         EndDrawing();
     }
 

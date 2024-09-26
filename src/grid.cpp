@@ -71,6 +71,19 @@ void Grid::Step() {
                 case FIRE:
                     cells[row][column].updated = 1;
                     goto next;
+                case SMOKE:
+                    cells[row][column].Life += 1;
+                    int cellLife = cells[row][column].Life;
+                    int cellLifetime = cells[row][column].Lifetime;
+                    cells[row][column].color.a = 255;
+                    if (cells[row][column].Life >= cells[row][column].Lifetime) {Set(row, column, BLACK, Grid::EMPTY); goto next;}
+                    if (CheckEmpty(row, -1, column, 0)) {MoveCell(row, -1, column, 0); goto next;}
+                    if (GetRandomValue(0,1)) { a = 1; b = -1;}
+                    else { a = -1; b = 1;} 
+                    if (CheckEmpty(row, -1, column, a)) {MoveCell(row, -1, column, a); goto next;}
+                    if (CheckEmpty(row, -1, column, b)) {if (MoveCell(row, -1, column, b)) goto next;}
+                    if (CheckCell(row, -1, column, 0, Grid::SAND)) {Swap(&cells[row][column], &cells[row-1][column]); goto next;}
+                    cells[row][column].updated = 1;
             }
             next:
             if (row % 2 == 0) {
@@ -123,5 +136,7 @@ void Grid::Swap(cell* a, cell* b) {
     cell temp = *a;
     *a = *b;
     *b = temp;
+    a->updated = 1;
+    b->updated = 1;
 }
 

@@ -16,7 +16,7 @@ int main()
     
 
     InitWindow(screenWidth, screenHeight, "Sand Simulation");
-    SetTargetFPS(100);
+    SetTargetFPS(60);
 
     while (!WindowShouldClose())
     {
@@ -27,6 +27,8 @@ int main()
         if (IsKeyPressed(KEY_TWO)) state = Grid::State::WOOD;
         if (IsKeyPressed(KEY_THREE)) state = Grid::State::WATER;
         if (IsKeyPressed(KEY_FOUR)) state = Grid::State::FIRE;
+        if (IsKeyPressed(KEY_FIVE)) state = Grid::State::SMOKE;
+
         Color color;
         double brightness;
         switch(state) {
@@ -44,6 +46,9 @@ int main()
             break;
             case Grid::State::FIRE:
             color = Color{200,120,10,255};
+            break;
+            case Grid::State::SMOKE:
+            color = Color{255,0,100,255};
             break;
         }
         if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) {

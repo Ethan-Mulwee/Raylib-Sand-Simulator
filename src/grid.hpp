@@ -11,9 +11,12 @@ class Grid {
         {
             Color color = Color{0,0,0,255};
             State state;
+            int Life = 0;
+            int Lifetime = 120;
             int updated = 0;
             cell(State inputState) {
                 state = inputState;
+                Life = 0;
             }
             void clear() {
                 updated = 0;

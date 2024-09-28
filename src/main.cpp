@@ -16,7 +16,8 @@ int main()
     Grid grid = Grid(72,128,gridScale);
     Grid::State state = Grid::State::SAND;
     UI ui;
-    ui.buttons.push_back(Button(30.0, 30.0, 10.0, 10.0, ORANGE, "SAND"));
+    ui.buttons.push_back(Button(30.0, 30.0, 10.0, 10.0, ORANGE, "Sand"));
+    ui.buttons.push_back(Button(30.0, 30.0, 50.0, 10.0, BLUE, "Water"));
 
     InitWindow(screenWidth, screenHeight, "Sand Simulation");
     SetTargetFPS(60);
@@ -26,9 +27,9 @@ int main()
         BeginDrawing();
         ClearBackground(DARKGRAY);
         if (IsKeyPressed(KEY_ZERO)) state = Grid::State::EMPTY;
-        if (IsKeyPressed(KEY_ONE)) state = Grid::State::SAND;
+        if (ui.buttons[0].action) state = Grid::State::SAND;
         if (IsKeyPressed(KEY_TWO)) state = Grid::State::WOOD;
-        if (IsKeyPressed(KEY_THREE)) state = Grid::State::WATER;
+        if (ui.buttons[1].action) state = Grid::State::WATER;
         if (IsKeyPressed(KEY_FOUR)) state = Grid::State::FIRE;
         if (IsKeyPressed(KEY_FIVE)) state = Grid::State::SMOKE;
 

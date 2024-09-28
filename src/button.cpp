@@ -21,5 +21,5 @@ void Button::Draw(bool Highlight) {
     if (state == 2) _color = ColorBrightness(_color, 0.5);
     if (Highlight) DrawRectangle(bounds.x-2, bounds.y-2, bounds.width+4, bounds.height+4, WHITE);
     DrawRectangleRec(bounds, _color);
-    DrawText(text.c_str(), bounds.x+1, (bounds.y+bounds.height)*0.5, 6, WHITE);
+    DrawText(text.c_str(), bounds.x+1, (bounds.y+bounds.height)*0.5, 0, WHITE);
 }
